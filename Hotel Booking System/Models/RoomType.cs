@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Text.Json.Serialization;
 
 namespace Hotel_Booking_System.Models
 {

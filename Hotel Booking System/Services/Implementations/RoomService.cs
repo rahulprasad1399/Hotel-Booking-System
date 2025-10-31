@@ -1,5 +1,6 @@
 ﻿using Hotel_Booking_System.Data;
 using Hotel_Booking_System.DTO;
+using Hotel_Booking_System.DTO.GetAllDtos;
 using Hotel_Booking_System.Models;
 using Hotel_Booking_System.Services.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -56,16 +57,28 @@ namespace Hotel_Booking_System.Services.Implementations
 
         }
 
-        public async Task<Room> GetById(int id)
+        public async Task<RoomGetDto> GetById(int id)
         {
-            var room = await _context.rooms.FirstOrDefaultAsync((r) => r.Id == id);
+            var room = await _context.rooms.Include("Hotel").Include("RoomType").FirstOrDefaultAsync((r) => r.Id == id);
+
             if (room == null)
             {
                 return null;
             }
             else
             {
-                return room;
+                RoomGetDto roomGetDto = new RoomGetDto
+                {
+                    Id = room.Id,
+                    RoomNumber = room.RoomNumber,
+                    RoomStatus = room.Status,
+                    PricePerNight = room.PricePerNight,
+                    hotelId = room.HotelId,
+                    HotelName = room.Hotel.Name,
+                    RoomTypeId = room.RoomTypeId,
+                    RoomTypeName = room.RoomType.TypeName
+                };
+                return roomGetDto;
             }
         }
 
