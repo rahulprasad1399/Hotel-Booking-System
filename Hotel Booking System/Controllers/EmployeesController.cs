@@ -1,4 +1,5 @@
 ﻿using Hotel_Booking_System.DTO;
+using Hotel_Booking_System.DTO.GetAllDtos;
 using Hotel_Booking_System.Models;
 using Hotel_Booking_System.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +18,13 @@ namespace Hotel_Booking_System.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllEmployee()
         {
-            List<Employee> employees = await _employeeService.GetAllEmployee();
+            List<EmployeeGetAllDto> employees = await _employeeService.GetAllEmployee();
             return Ok(employees);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployeeById(int id)
         {
-            Employee employee = await _employeeService.GetEmployeeById(id);
+            EmployeeGetAllDto employee = await _employeeService.GetEmployeeById(id);
             if (employee == null)
             {
                 return NotFound();
@@ -52,13 +53,13 @@ namespace Hotel_Booking_System.Controllers
 
             if(newEmployee == null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError ,"Error Creating Employee")
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error Creating Employee");
             }
 
             return Ok(newEmployee);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
             Employee employeeToBeDeleted = await _employeeService.DeleteEmployee(id);
@@ -72,7 +73,7 @@ namespace Hotel_Booking_System.Controllers
             }
         }
 
-        [HttpPatch]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(int id, EmployeePostDto employeePostDto)
         {
 

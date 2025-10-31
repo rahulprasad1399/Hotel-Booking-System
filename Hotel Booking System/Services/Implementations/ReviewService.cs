@@ -64,11 +64,13 @@ namespace Hotel_Booking_System.Services.Implementations
                 return null;
             }
 
-            review.Rating = review.Rating;
-            review.Comment = review.Comment;
-            review.ReviewDate = review.ReviewDate;
-            review.HotelId = review.HotelId;
-            review.CustomerId = review.CustomerId;
+            updateReview.Rating = review.Rating;
+            updateReview.Comment = review.Comment;
+            updateReview.ReviewDate = review.ReviewDate;
+            updateReview.HotelId = review.HotelId;
+            updateReview.CustomerId = review.CustomerId;
+
+            await _context.SaveChangesAsync();
 
             return updateReview;
         }

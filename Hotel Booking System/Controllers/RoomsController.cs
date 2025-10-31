@@ -58,7 +58,7 @@ namespace Hotel_Booking_System.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoom(int id)
         {
             var deletedRoom = await _roomservice.DeleteRoom(id);
@@ -72,7 +72,7 @@ namespace Hotel_Booking_System.Controllers
             
         }
 
-        [HttpPatch]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRoom(int id, RoomPostDto roomPostDto)
         {
             var updatedRoom = await _roomservice.UpdateRoom(id, roomPostDto);

@@ -1,4 +1,5 @@
 ﻿using Hotel_Booking_System.Data;
+using Hotel_Booking_System.DTO.GetAllDtos;
 using Hotel_Booking_System.Models;
 using Hotel_Booking_System.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -15,22 +16,10 @@ namespace Hotel_Booking_System.Services.Implementations
         public async Task<Employee> CreateEmployee(Employee employee)
         {
 
-            Employee newEmployee = new Employee();
-            newEmployee.FullName = employee.FullName;
-            newEmployee.Role = employee.Role;
-            newEmployee.Email = employee.Email;
-            newEmployee.HotelId = employee.HotelId;
+            await _context.employees.AddAsync(employee);
+            await _context.SaveChangesAsync();
+            return employee;
 
-            var createdEmployee = await _context.employees.AddAsync(newEmployee);
-            var savedToDb = await _context.SaveChangesAsync();
-            if(savedToDb == 1)
-            {
-                return createdEmployee.Entity;
-            } else
-            {
-                return null;
-            }
-            
         }
 
         public async Task<Employee> DeleteEmployee(int id)
@@ -48,18 +37,39 @@ namespace Hotel_Booking_System.Services.Implementations
             }
         }
 
-        public async Task<List<Employee>> GetAllEmployee()
+        public async Task<List<EmployeeGetAllDto>> GetAllEmployee()
         {
-            var empoyees = await _context.employees.ToListAsync();
-            return empoyees;
+            var employees = await _context.employees.Include((id) => id.Hotel).ToListAsync();
+
+            var newEmployeeGetAllDto = employees.Select(x => new EmployeeGetAllDto
+            {
+                Id = x.Id,
+                FullName = x.FullName,
+                Role = x.Role,
+                Email = x.Email,
+                HotelId = x.HotelId,
+                HotelName = x.Hotel.Name
+            }).ToList();
+
+            return newEmployeeGetAllDto;
         }
 
-        public async Task<Employee> GetEmployeeById(int id)
+        public async Task<EmployeeGetAllDto> GetEmployeeById(int id)
         {
-            Employee employee = await _context.employees.FirstOrDefaultAsync(x => x.Id == id);
+            Employee employee = await _context.employees.Include((id) => id.Hotel).FirstOrDefaultAsync(x => x.Id == id);
+
             if (employee != null)
             {
-                return employee;
+                var employeeGetAllDto = new EmployeeGetAllDto()
+                {
+                    Id= employee.Id,
+                    FullName = employee.FullName,
+                    Role = employee.Role,
+                    Email = employee.Email,
+                    HotelId= employee.HotelId,
+                    HotelName= employee.Hotel.Name
+                };
+                return employeeGetAllDto;
             }
             else
             {

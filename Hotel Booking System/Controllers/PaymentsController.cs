@@ -53,7 +53,7 @@ namespace Hotel_Booking_System.Controllers
             return Ok(newPayment);
         }
 
-        [HttpPatch]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePayment(int id, PaymentPostDto paymentPostDto)
         {
 
@@ -71,7 +71,7 @@ namespace Hotel_Booking_System.Controllers
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayment(int id)
         {
             Payment payment = await _paymentService.DeletePayment(id);

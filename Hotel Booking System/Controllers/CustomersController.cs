@@ -52,7 +52,7 @@ namespace Hotel_Booking_System.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             Customer customer = await _customerService.DeleteCustomer(id);
@@ -66,7 +66,7 @@ namespace Hotel_Booking_System.Controllers
             }
         }
 
-        [HttpPatch]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCustomer(int id, CustomerPostDto customerPostDto)
         {
             Customer updatedCustomer = new Customer

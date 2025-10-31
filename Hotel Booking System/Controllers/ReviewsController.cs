@@ -60,7 +60,7 @@ namespace Hotel_Booking_System.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReview(int id)
         {
             Review review = await _reviewService.DeleteReview(id);
@@ -74,7 +74,7 @@ namespace Hotel_Booking_System.Controllers
             }
         }
 
-        [HttpPatch]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReview(int id, ReviewDto reviewDto)
         {
 

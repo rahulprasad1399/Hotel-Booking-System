@@ -54,7 +54,7 @@ namespace Hotel_Booking_System.Controllers
             }
         }
 
-        [HttpPatch]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRoomType(int id, RoomTypePostDto roomTypePostDto)
         {
             RoomType roomType = new RoomType();
@@ -71,7 +71,7 @@ namespace Hotel_Booking_System.Controllers
             }   
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoomType(int id)
         {
             var deleteRoomType = await _roomTypeService.RemoveRoomType(id);

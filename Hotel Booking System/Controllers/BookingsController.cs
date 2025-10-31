@@ -51,7 +51,7 @@ namespace Hotel_Booking_System.Controllers
             return Ok(createdBooking);
         }
 
-        [HttpPatch]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBooking(int id, BookingPostDto bookingPostDto)
         {
             Booking booking = new Booking
@@ -74,7 +74,7 @@ namespace Hotel_Booking_System.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBooking(int id)
         {
             Booking bookingDelete = await _bookingService.DeleteBooking(id);
